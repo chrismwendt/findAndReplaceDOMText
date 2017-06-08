@@ -194,18 +194,22 @@ findAndReplaceDOMText(document.getElementById('container'), {
 </div>
 ```
 
-#### The instance
+#### The `Finder` instance
 
-Calling `findAndReplaceDOMText` returns an instance of an internal Finder constructor -- the API on the object is limited, at the moment, to reverting:
+`findAndReplaceDOMText` returns a `Finder` object with the following API:
+
+- **revert()** (`Function`): Rolls back changes to the DOM. **Note:** Reversion will only work if the nodes have not been tampered with after the initial replacement -- if there have been removals, movements or normalisations then the reversion is not guarenteed to work. In this case it's best to retain your own clone of the target node(s) in order to run your own reversion.
+- **elements** (`Array<Array<Element>>`): This is an array of matches, where each match is an array of DOM elements.
+
+Example:
 
 ```js
 var finder = findAndReplaceDOMText(...);
+console.log(finder.elements);
 
 // Later:
 finder.revert();
 ```
-
-**Note:** Reversion will only work if the nodes have not been tampered with after the initial replacement -- if there have been removals, movements or normalisations then the reversion is not guarenteed to work. In this case it's best to retain your own clone of the target node(s) in order to run your own reversion.
 
 ### Contexts
 

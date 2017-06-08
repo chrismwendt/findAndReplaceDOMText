@@ -392,6 +392,26 @@ test('Across node boundaries', function() {
 	htmlEqual(d.innerHTML, original);
 });
 
+module('Getting matches from the Finder instance');
+
+test('Gets matches', function() {
+	var d = document.createElement('div');
+	d.innerHTML = 'foobar foo<em>bar</em>';
+	var finder = findAndReplaceDOMText(d, {
+		find: /foobar/g,
+		wrap: 'span'
+	});
+
+	equal(finder.elements.length, 2);
+
+	equal(finder.elements[0].length, 1);
+	equal(finder.elements[0][0].innerText, "foobar");
+
+	equal(finder.elements[1].length, 2);
+	equal(finder.elements[1][0].innerText, "foo");
+	equal(finder.elements[1][1].innerText, "bar");
+});
+
 module('Legacy');
 
 test('Deprecated argument signature', function() {

@@ -173,6 +173,8 @@
 
 		this.reverts = [];
 
+		this.elements = [];
+
 		this.matches = this.search();
 
 		if (this.matches.length) {
@@ -436,7 +438,11 @@
 				this.reverts[l]();
 			}
 			this.reverts = [];
+			this.elements = [];
 		},
+
+		// Array of matches, where each match is an array of elements
+		elements: this.elements,
 
 		prepareReplacementString: function(string, portion, match) {
 			var portionMode = this.options.portionMode;
@@ -565,6 +571,8 @@
 					newNode.parentNode.replaceChild(node, newNode);
 				});
 
+				this.elements.push([newNode]);
+
 				return newNode;
 
 			} else {
@@ -605,6 +613,8 @@
 					endPortion,
 					match
 				);
+
+				this.elements.push([firstNode].concat(innerNodes).concat([lastNode]));
 
 				matchStartNode.parentNode.insertBefore(precedingTextNode, matchStartNode);
 				matchStartNode.parentNode.insertBefore(firstNode, matchStartNode);
